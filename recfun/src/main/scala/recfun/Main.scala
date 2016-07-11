@@ -22,18 +22,22 @@ object Main {
    * Exercise 2
    */
     def balance(chars: List[Char]): Boolean = {
-      def findClose(chars: List[Char], count: Int): Boolean = {
+      def countParens(chars: List[Char], count: Int): Boolean = {
         if (chars.isEmpty) count == 0
-        //        else if (chars.head == ')') true
-        else if (chars.head == '(') findClose(chars.tail, count + 1)
-        else if (chars.head == ')') count > 0 && findClose(chars.tail, count - 1)
-        else findClose(chars.tail, count)
+        else if (chars.head == '(') countParens(chars.tail, count + 1)
+        else if (chars.head == ')') count > 0 && countParens(chars.tail, count - 1)
+        else countParens(chars.tail, count)
       }
-      findClose(chars, 0)
+      countParens(chars, 0)
     }
 
   /**
    * Exercise 3
    */
-    def countChange(money: Int, coins: List[Int]): Int = ???
+    def countChange(money: Int, coins: List[Int]): Int = {
+      if (coins.isEmpty || money < 0) 1
+      else
+        if (money == 0) 1
+        else countChange(money, coins.tail) + countChange(money - coins.head, coins)
+    }
   }
